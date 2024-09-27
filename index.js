@@ -13,15 +13,15 @@ app.use(bodyParser.json());
 
 // 간단한 라우트
 app.get('/', (req, res) => {
-  res.send('Hello, world!');
+  res.send('Welcome to bizchat backend');
 });
 
 
 // refer : https://bb-library.tistory.com/214
 app.post('/chat', (req, res) => {
   const sendQuestion = req.body.question;
-  const execPython = path.join(__dirname, 'chat', 'bizchat.py')
-  const pythonPath = path.join(__dirname, "chat", "Scripts", "python.exe")
+  const execPython = path.join(__dirname, 'bizchat.py')
+  const pythonPath = path.join(__dirname, "venv", "bin", "python3")
   const net = spawn(pythonPath ,[execPython, sendQuestion]);
 
   output = '';
@@ -44,7 +44,7 @@ app.post('/chat', (req, res) => {
   })
 });
 
-// 서버 실행
+// 서버 실행 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
