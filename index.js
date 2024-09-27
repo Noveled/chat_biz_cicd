@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 console.log(path.join(__dirname));
 
 // 포트 설정
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8080;
 app.use(bodyParser.json());
 
 // 간단한 라우트
