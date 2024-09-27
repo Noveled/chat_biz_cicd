@@ -19,29 +19,56 @@ app.get('/', (req, res) => {
 
 // refer : https://bb-library.tistory.com/214
 app.post('/chat', (req, res) => {
-  const sendQuestion = req.body.question;
-  const execPython = path.join(__dirname, 'bizchat.py')
-  const pythonPath = path.join(__dirname, "venv", "bin", "python3")
-  const net = spawn(pythonPath ,[execPython, sendQuestion]);
+  try {
+    const sendedQuestion = req.body.question;
 
-  output = '';
 
-  //파이썬 파일 수행 결과를 받아온다
-  net.stdout.on('data', function(data) { 
-    output += data.toString();
-  });
+    // EC2 서버에서 현재 실행 중인 Node.js 파일의 절대 경로를 기준으로 설정합니다.
+    const scriptPath = path.join(__dirname, 'bizchat.py');
+    const pythonPath = path.join(__dirname, 'venv', 'bin', 'python3');
 
-  net.on('close', (code) => {
-    if (code === 0) {
-      res.status(200).json({ answer: output });
-    } else {
-      res.status(500).send('Something went wrong');
-    }
-  });
 
-  net.stderr.on('data', (data) => {
-    console.error(`stderr: ${data}`);
-  })
+    // Spawn the Python process with the correct argument
+    const result = spawn(pythonPath, [scriptPath, sendedQuestion]);
+
+
+    // result.stdout.on('data', (data) => {
+    //   console.log(data.toString());
+    //   // return res.status(200).json(data.toString());
+    // });
+
+
+    let responseData = '';
+
+
+    // Listen for data from the Python script
+    result.stdout.on('data', (data) => {
+      // console.log(data.toString());
+      // res.status(200).json({ answer: data.toString() });
+      responseData += data.toString();
+    });
+
+
+    // Listen for errors from the Python script
+    result.stderr.on('data', (data) => {
+      console.error(`stderr: ${data}`);
+      res.status(500).json({ error: data.toString() });
+    });
+
+
+    // Handle the close event of the child process
+    result.on('close', (code) => {
+      if (code === 0) {
+        res.status(200).json({ answer: responseData });
+      } else {
+        res
+          .status(500)
+          .json({ error: `Child process exited with code ${code}` });
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
 });
 
 // 서버 실행 
