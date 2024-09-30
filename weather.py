@@ -14,6 +14,13 @@ headers = {
 html = requests.get('https://search.naver.com/search.naver?query=날씨', headers=headers)
 soup = bs(html.text, 'html.parser')
 
+print('html', html)
+print('soup', soup)
+
+html2 = requests.get('https://www.google.co.kr/', headers=headers)
+print('html2', html2)
+
+
 # 현재 온도 추출
 current_temperature = soup.find('div', {'class': 'temperature_text'}).find('strong').text.strip()
 
