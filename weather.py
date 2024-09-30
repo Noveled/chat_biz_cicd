@@ -14,11 +14,11 @@ sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
 
 # 뉴스기사 내용을 로드합니다.
 loader = WebBaseLoader(
-    web_paths=("https://openweathermap.org/",),
+    web_paths=("https://www.kweather.co.kr/index.php",),
     bs_kwargs=dict(
         parse_only=bs4.SoupStrainer(
             "div",
-            attrs={"class": ["current-temp"]},
+            attrs={"class": ["top_header_middle_textArea"]},
         )
     ),
     header_template={
