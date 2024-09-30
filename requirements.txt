@@ -7,3 +7,5 @@ faiss-cpu>=1.8.0.post1
 python-dotenv>=1.0.1
 tiktoken>=0.7.0
 langchain-teddynote>=0.0.34
+BeautifulSoup4>=4.12.3
+requests>=2.32.3
