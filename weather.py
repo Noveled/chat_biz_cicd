@@ -2,25 +2,35 @@ from bs4 import BeautifulSoup as bs
 import requests
 import sys # 한글 출력 인코딩에 사용
 import io # 한글 출력 인코딩에 사용 
+from langchain_community.document_loaders import WebBaseLoader
 
 sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
 
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
-}
+# 네이버 날씨 페이지 요청 ( error )
+# html = requests.get('https://search.naver.com/search.naver?query=날씨', headers=headers)
+# soup = bs(html.text, 'html.parser')
 
-# 네이버 날씨 페이지 요청
-html = requests.get('https://search.naver.com/search.naver?query=날씨', headers=headers)
-soup = bs(html.text, 'html.parser')
+# print('html', html)
+# print('soup', soup)
 
-print('html', html)
-print('soup', soup)
+# 뉴스기사 내용을 로드하고, 청크로 나누고, 인덱싱합니다.
+loader = WebBaseLoader(
+    web_paths=("https://search.naver.com/search.naver?query=날씨",),
+    bs_kwargs=dict(
+        parse_only=bs4.SoupStrainer(
+            "div",
+            attrs={"class": ["temperature_text"]},
+        )
+    ),
+)
 
-html2 = requests.get('https://www.google.co.kr/', headers=headers)
-print('html2', html2)
 
+docs = loader.load()
+# print(f"문서의 수: {len(docs)}")
+# docs
 
+print(docs)
 # # 현재 온도 추출
 # current_temperature = soup.find('div', {'class': 'temperature_text'}).find('strong').text.strip()
 
