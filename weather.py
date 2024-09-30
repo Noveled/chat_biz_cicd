@@ -6,8 +6,12 @@ import io # 한글 출력 인코딩에 사용
 sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
 
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+}
+
 # 네이버 날씨 페이지 요청
-html = requests.get('https://search.naver.com/search.naver?query=날씨')
+html = requests.get('https://search.naver.com/search.naver?query=날씨', headers=headers)
 soup = bs(html.text, 'html.parser')
 
 # 현재 온도 추출
