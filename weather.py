@@ -6,7 +6,7 @@ import io
 import os
 from langchain_community.document_loaders import WebBaseLoader
 
-os.environ['USER_AGENT'] = 'myagent'
+# os.environ['USER_AGENT'] = 'myagent
 
 # 한글 출력 인코딩 설정 (환경에 따라 필요할 수 있음)
 sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
@@ -14,11 +14,11 @@ sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
 
 # 뉴스기사 내용을 로드합니다.
 loader = WebBaseLoader(
-    web_paths=("https://www.kweather.co.kr/index.php",),
+    web_paths=("https://openweathermap.org/",),
     bs_kwargs=dict(
         parse_only=bs4.SoupStrainer(
             "div",
-            attrs={"class": ["top_header_middle_textArea"]},
+            attrs={"class": ["current-temp"]},
         )
     ),
     header_template={
