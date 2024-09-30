@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup as bs
+from bs4 import BeautifulSoup as bs4
 import requests
 import sys # 한글 출력 인코딩에 사용
 import io # 한글 출력 인코딩에 사용 
