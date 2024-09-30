@@ -6,28 +6,17 @@ import io
 import os
 from langchain_community.document_loaders import WebBaseLoader
 
-os.environ['USER_AGENT'] = 'myagent'
+# os.environ['USER_AGENT'] = 'myagent'
 
 # 한글 출력 인코딩 설정 (환경에 따라 필요할 수 있음)
 sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
-import bs4
-from langchain_community.document_loaders import WebBaseLoader
 
-# 뉴스기사 내용을 로드합니다.
-loader = WebBaseLoader(
-    web_paths=("https://n.news.naver.com/article/437/0000378416",),
-    bs_kwargs=dict(
-        parse_only=bs4.SoupStrainer(
-            "div",
-            attrs={"class": ["newsct_article _article_body", "media_end_head_title"]},
-        )
-    ),
-    header_template={
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
-    },
-)
+# 요청 헤더에 User-Agent 설정 (여기서는 Chrome을 사용하는 것처럼 설정)
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36'
+}
 
-docs = loader.load()
-# print(f"문서의 수: {len(docs)}")
-print(docs)
+response = requests.get('https://search.naver.com/search.naver?query=%EB%82%A0%EC%94%A8', headers=headers)
+
+print(response.content)
