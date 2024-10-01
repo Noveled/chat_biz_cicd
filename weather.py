@@ -47,7 +47,7 @@ chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 
 driver = webdriver.Chrome(options=chrome_options)
-driver.get('https://weather.naver.com/today/09620525?cpName=KMA')
+driver.get('https://weather.naver.com/today/')
 
 html = driver.page_source
 soup = bs(html, 'html.parser')
