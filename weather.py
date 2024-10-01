@@ -58,7 +58,7 @@ driver = webdriver.Chrome(options=chrome_options)
 driver.get('https://weather.naver.com/today/09620525')
 
 # 페이지 로드 대기
-time.sleep(3)  # 페이지 로드 시간을 고려해 적절히 대기
+time.sleep(1)  # 페이지 로드 시간을 고려해 적절히 대기
 
 # 페이지 소스 가져오기
 html = driver.page_source
