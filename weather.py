@@ -14,7 +14,7 @@ sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
 
 # 뉴스기사 내용을 로드합니다.
 loader = WebBaseLoader(
-    web_paths=("https://openweathermap.org/",),
+    web_paths=("https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%EB%82%A0%EC%94%A8",),
     bs_kwargs=dict(
         parse_only=bs4.SoupStrainer(
             "div",
@@ -22,7 +22,7 @@ loader = WebBaseLoader(
         )
     ),
     header_template={
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
     },
 )
 
