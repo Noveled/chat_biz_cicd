@@ -6,7 +6,7 @@ import io
 import os
 from langchain_community.document_loaders import WebBaseLoader
 
-# os.environ['USER_AGENT'] = 'myagent
+os.environ['USER_AGENT'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36'
 
 # 한글 출력 인코딩 설정 (환경에 따라 필요할 수 있음)
 sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
