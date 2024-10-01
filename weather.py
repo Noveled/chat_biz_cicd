@@ -47,7 +47,7 @@ chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 
 driver = webdriver.Chrome(options=chrome_options)
-driver.get('https://search.naver.com/search.naver?query=날씨')
+driver.get('https://weather.naver.com/today/09620525?cpName=KMA')
 
 html = driver.page_source
 soup = bs(html, 'html.parser')
@@ -56,24 +56,24 @@ driver.quit()
 
 # current_temperature = soup.find('div', {'class': 'temperature_text'}).find('strong').text.strip()
 
-print(soup)
-# # 현재 온도 추출
-# current_temperature = soup.find('div', {'class': 'temperature_text'}).find('strong').text.strip()
 
-# # 체감 온도 추출
-# apparent_temperature = soup.find('dl', {'class': 'summary_list'}).find_all('dd', {'class': 'desc'})[0].text.strip()
+# 현재 온도 추출
+current_temperature = soup.find('div', {'class': 'temperature_text'}).find('strong').text.strip()
 
-# # 습도 추출
-# humidity = soup.find('dl', {'class': 'summary_list'}).find_all('dd', {'class': 'desc'})[1].text.strip()
+# 체감 온도 추출
+apparent_temperature = soup.find('dl', {'class': 'summary_list'}).find_all('dd', {'class': 'desc'})[0].text.strip()
 
-# # 동풍 속도 추출
-# wind_speed = soup.find('dl', {'class': 'summary_list'}).find_all('dd', {'class': 'desc'})[2].text.strip()
+# 습도 추출
+humidity = soup.find('dl', {'class': 'summary_list'}).find_all('dd', {'class': 'desc'})[1].text.strip()
 
-# # 전체 결과 출력
-# print(f"현재 온도: {current_temperature}")
-# print(f"체감 온도: {apparent_temperature}")
-# print(f"습도: {humidity}")
-# print(f"동풍 속도: {wind_speed}")
+# 동풍 속도 추출
+wind_speed = soup.find('dl', {'class': 'summary_list'}).find_all('dd', {'class': 'desc'})[2].text.strip()
+
+# 전체 결과 출력
+print(f"현재 온도: {current_temperature}")
+print(f"체감 온도: {apparent_temperature}")
+print(f"습도: {humidity}")
+print(f"동풍 속도: {wind_speed}")
 
 
 # print(soup)
