@@ -111,23 +111,20 @@ app.post('/chat', (req, res) => {
   }
 });
 
-// refer : https://bb-library.tistory.com/214
-app.post('/recommend', (req, res) => {
+
+
+// '/recommend' 경로에 대한 GET 요청을 처리하는 핸들러
+app.get('/recommend', (req, res) => {
   try {
-    const sendedQuestion = req.body.question;
-
-
     // EC2 서버에서 현재 실행 중인 Node.js 파일의 절대 경로를 기준으로 설정합니다.
     const scriptPath = path.join(__dirname, 'recommend.py');
     const pythonPath = path.join(__dirname, 'venv', 'bin', 'python3');
 
 
     // Spawn the Python process with the correct argument
-    const result = spawn(pythonPath, [scriptPath, sendedQuestion]);
-
+    const result = spawn(pythonPath, [scriptPath]);
 
     let responseData = '';
-
 
     // Listen for data from the Python script
     result.stdout.on('data', (data) => {
@@ -157,6 +154,7 @@ app.post('/recommend', (req, res) => {
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
+
 });
 
 // 서버 실행 
