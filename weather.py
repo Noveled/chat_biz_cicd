@@ -63,26 +63,19 @@ soup = bs(html, 'html.parser')
 
 driver.quit()
 
-# current_temperature = soup.find('div', {'class': 'temperature_text'}).find('strong').text.strip()
 
+current_temperature = soup.find('div', {'class': 'weather_area'}).find('div')
 
-# # 현재 온도 추출
-# current_temperature = soup.find('div', {'class': 'temperature_text'}).find('strong').text.strip()
+# 현재 온도 추출
+current_temp = current_temperature.find('strong', class_='current').text.strip().replace("현재 온도", "").replace("°", "").strip()
 
-# # 체감 온도 추출
-# apparent_temperature = soup.find('dl', {'class': 'summary_list'}).find_all('dd', {'class': 'desc'})[0].text.strip()
+# 날씨 상태 추출
+weather_status = current_temperature.find('span', class_='weather').text.strip()
 
-# # 습도 추출
-# humidity = soup.find('dl', {'class': 'summary_list'}).find_all('dd', {'class': 'desc'})[1].text.strip()
+# 어제보다 기온 변화 추출
+temp_change = current_temperature.find('span', class_='temperature').text.strip().replace("°", "").strip()
 
-# # 동풍 속도 추출
-# wind_speed = soup.find('dl', {'class': 'summary_list'}).find_all('dd', {'class': 'desc'})[2].text.strip()
-
-# # 전체 결과 출력
-# print(f"현재 온도: {current_temperature}")
-# print(f"체감 온도: {apparent_temperature}")
-# print(f"습도: {humidity}")
-# print(f"동풍 속도: {wind_speed}")
-
-
-print(soup)
+# 추출된 정보 출력
+print(f"현재 온도: {current_temp}°C")
+print(f"날씨 상태: {weather_status}")
+print(f"어제보다 기온 변화: {temp_change}°C")
