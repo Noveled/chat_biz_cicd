@@ -41,15 +41,24 @@ from bs4 import BeautifulSoup as bs
 sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
 
+# Chrome options 설정
 chrome_options = Options()
-chrome_options.add_argument("--headless")  # 헤드리스 모드로 실행
-chrome_options.add_argument("--no-sandbox")
-chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--headless")  # Headless 모드 사용
+chrome_options.add_argument("--no-sandbox")  # 보안 관련 설정 (필요시)
+chrome_options.add_argument("--disable-dev-shm-usage")  # 메모리 사용 문제 해결
+chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36")
+chrome_options.add_argument("accept-language=ko-KR,ko;q=0.9")
 
+# ChromeDriver 실행
 driver = webdriver.Chrome(options=chrome_options)
-driver.get('https://weather.naver.com/today/')
 
+# 웹페이지 가져오기
+driver.get('https://weather.naver.com/today/09620525?cpName=KMA')
+
+# 페이지 소스 가져오기
 html = driver.page_source
+
+# BeautifulSoup로 HTML 파싱
 soup = bs(html, 'html.parser')
 
 driver.quit()
