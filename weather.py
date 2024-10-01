@@ -54,5 +54,5 @@ soup = bs(html, 'html.parser')
 
 driver.quit()
 
-current_temperature = soup.find('div', {'class': 'temperature_text'}).find('strong').text.strip()
-print(current_temperature)
+# current_temperature = soup.find('div', {'class': 'temperature_text'}).find('strong').text.strip()
+print(soup)
