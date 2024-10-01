@@ -30,37 +30,50 @@
 # # print(f"문서의 수: {len(docs)}")
 # print(docs)
 
-import sys
-import io
-import os
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup as bs
+import time
+import os # 파일 경로 설정 등에 사용
+import sys # 한글 출력 인코딩에 사용
+import io # 한글 출력 인코딩에 사용 
 
 # 한글 출력 인코딩 설정 (환경에 따라 필요할 수 있음)
 sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
 
-# Chrome options 설정
+# Chrome 옵션 설정
 chrome_options = Options()
-chrome_options.add_argument("--headless")  # Headless 모드 사용
-chrome_options.add_argument("--no-sandbox")  # 보안 관련 설정 (필요시)
-chrome_options.add_argument("--disable-dev-shm-usage")  # 메모리 사용 문제 해결
+chrome_options.add_argument("--headless")  # 브라우저 창을 띄우지 않음 (필요시)
+chrome_options.add_argument("--no-sandbox")  # 보안 관련 설정
+chrome_options.add_argument("--disable-dev-shm-usage")  # 메모리 문제 해결
 chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36")
-chrome_options.add_argument("accept-language=ko-KR,ko;q=0.9")
+chrome_options.add_argument("accept-language=ko-KR,ko;q=0.9")  # 한국어로 설정
+
+# ChromeDriver 서비스 설정
+service = Service(chrome_driver_path)
 
 # ChromeDriver 실행
-driver = webdriver.Chrome(options=chrome_options)
+driver = webdriver.Chrome(service=service, options=chrome_options)
 
-# 웹페이지 가져오기
-driver.get('https://weather.naver.com/today/09620525?cpName=KMA')
+# 크롤링할 웹페이지로 이동
+url = "https://weather.naver.com/today/09620525"
+driver.get(url)
+
+# 페이지 로드 대기
+time.sleep(3)  # 페이지 로드 시간을 고려해 적절히 대기
 
 # 페이지 소스 가져오기
 html = driver.page_source
 
-# BeautifulSoup로 HTML 파싱
+# BeautifulSoup으로 HTML 파싱
 soup = bs(html, 'html.parser')
 
+# 예시: 날씨 정보를 출력
+# print(soup.prettify())
+
+# 드라이버 종료
 driver.quit()
 
 
